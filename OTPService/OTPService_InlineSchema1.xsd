@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.quantiguous.com/OTPService" xmlns:tns="http://www.quantiguous.com/OTPService">
+    <xsd:include schemaLocation=""/>
+    <xsd:element xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" ibmSchExtn:docRoot="true" name="sendOTP">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="tns:version"/>
+                <xsd:element ref="tns:customerID"/>
+            </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" ibmSchExtn:docRoot="true" name="sendOTPResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="tns:version"/>
+                <xsd:element ref="tns:otpKey">
+          <xsd:annotation>
+            <xsd:documentation>The part of the OTP that needs to be kept secret by the client application. 
+Verification requires this secret to be passed along with the value entered by the customer.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+                <xsd:element name="mobileNo" nillable="true" type="tns:mobileNoType">
+          <xsd:annotation>
+            <xsd:documentation>The mobile No to which the OTP is sent.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+                <xsd:element name="emailID" nillable="true" type="tns:emailIDType">
+          <xsd:annotation>
+            <xsd:documentation>The email ID to which the OTP was sent.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    <xsd:element xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" ibmSchExtn:docRoot="true" name="sendOTPFault1" nillable="true" type="tns:sendOTPFaultType">
+        <xsd:annotation>
+        	<xsd:documentation>The operation can fail in case of the following : 
+1000 : customer not found
+1001 : mobile number incorrect, OTP wont be sent.
+1002 : email id incorrect. OTP wont be sent.</xsd:documentation></xsd:annotation>
+    </xsd:element>
+    <xsd:element xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" ibmSchExtn:docRoot="true" name="verifyOTP">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="tns:version"/>
+        <xsd:element ref="tns:customerID"/>
+        <xsd:element name="otp" nillable="true" type="tns:otpType">
+          <xsd:annotation>
+            <xsd:documentation>The otp for the second factor authentication. An OTP consists of a secret key (also called a challenge for session key) and a value that is entered by the user.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+    <xsd:element xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" ibmSchExtn:docRoot="true" name="verifyOTPResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="tns:version">
+          <xsd:annotation>
+            <xsd:documentation>True if the the OTP was successfully verified. False if the verification failed. The specific reason for the failure in verification is in the verificationFaultReason element.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+                <xsd:element name="isValid" nillable="true" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>True if the the OTP was successfully verified. False if the verification failed. The specific reason for the failure in verification is in the verificationFaultReason element.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+                <xsd:element name="verificationFaultReason" nillable="true" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The reason why the verification failed. The most common cases include (1) OTP expired (2) OTP value is incorrect. This can be safely shown to the customer.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+            </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+    <xsd:complexType name="otpType">
+    <xsd:sequence>
+    	<xsd:element ref="tns:otpKey"/>
+    	<xsd:element name="otpValue" type="tns:otpValueType"/>
+    </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="otpKeyType">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:whiteSpace value="collapse"/>
+    	</xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="otpValueType">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:whiteSpace value="collapse"/>
+    	</xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="otpKey" type="tns:otpKeyType"/>
+
+    <xsd:simpleType name="mobileNoType">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:length value="10"/>
+    		<xsd:whiteSpace value="collapse"/>
+    	</xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="customerIDType">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:whiteSpace value="collapse"/>
+    	</xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="emailIDType">
+    	<xsd:restriction base="xsd:string"/>
+    </xsd:simpleType>
+
+
+    <xsd:element name="customerID" type="tns:customerIDType">
+    	<xsd:annotation>
+    		<xsd:documentation>The unique ID assigned to the customer. This is the ID that is communicated to the customer, (usually the one assigned by the core banking system).
+The OTP will be sent to the registered contact point (email or phone) of this customer.</xsd:documentation>
+    	</xsd:annotation>
+  </xsd:element>
+
+    <xsd:element name="version" type="tns:versionType">
+    	<xsd:annotation>
+    		<xsd:documentation>When sent in the request, this reflects the version that is known to the client. Clients should always send a value that they were developed with. When sent in the reply, this reflects the version that is known to the server. This is updated whenever there is a change in the specification or the behavior of the server. These versions are not required to match, and are to be used to when dealing with compatibility issues.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+    <xsd:simpleType name="versionType">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:whiteSpace value="collapse"/>
+    	</xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="sendOTPFaultType">
+    <xsd:sequence>
+    	<xsd:element name="code">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:token">
+    				<xsd:enumeration value="1000"/>
+    				<xsd:enumeration value="1001"/>
+    				<xsd:enumeration value="1002"/>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:element>
+    	<xsd:element name="longMessage">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:maxLength value="100"/>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:element>
+    </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,14 @@
+
+
+Importing file: /home/iibadm/code/iib3/OTPService/OTPService.wsdl
+
+The WSDL import will proceed with bindings OTPServiceHttpBinding.
+Creating wsdl schema document for file:///home/iibadm/code/iib3/OTPService/OTPService.wsdl.
+Parsing wsdl binding {http://OTPService}OTPServiceHttpBinding.
+Parsing wsdl binding input operation1.
+Parsing wsdl binding output operation1.
+Processing doc style for operation operation1.
+Populating WSDL schema OTPService.xsd.
+Creating file OTPService.xsd in the workspace.
+Creating file OTPService_InlineSchema1.xsd in the workspace.
+Copying source WSDL OTPService.wsdl to OTPService.wsdl.

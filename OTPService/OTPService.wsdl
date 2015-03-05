@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="OTPService" targetNamespace="http://www.quantiguous.com/OTPService" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.quantiguous.com/OTPService" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    <wsdl:appinfo source="WMQI_APPINFO">
+      <MRWSDLAppInfo imported="true">
+        <binding hasEncoding="false" imported="true" name="OTPServiceHttpBinding" originalBindingStyle="document"/>
+        <generatedXSD location="OTPService_InlineSchema1.xsd"/>
+      </MRWSDLAppInfo>
+    </wsdl:appinfo>
+  </wsdl:documentation>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <wsdl:types>
+    
+        <xsd:schema targetNamespace="http://www.quantiguous.com/OTPService" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions">
+      <xsd:include schemaLocation="OTPService_InlineSchema1.xsd"/>
+    </xsd:schema>
+    </wsdl:types>
+  <wsdl:message name="sendOTPRequestMsg">
+    <wsdl:part element="tns:sendOTP" name="sendOTPParameters"/>
+  </wsdl:message>
+  <wsdl:message name="sendOTPResponseMsg">
+    <wsdl:part element="tns:sendOTPResponse" name="sendOTPResult"/>
+  </wsdl:message>
+    <wsdl:message name="sendOTP_sendOTPFault1Msg">
+    <wsdl:part element="tns:sendOTPFault1" name="sendOTPFault1"/>
+  </wsdl:message>
+    <wsdl:message name="verifyOTPRequestMsg">
+    <wsdl:part element="tns:verifyOTP" name="verifyOTPParameters"/>
+  </wsdl:message>
+    <wsdl:message name="verifyOTPResponseMsg">
+    <wsdl:part element="tns:verifyOTPResponse" name="verifyOTPResult"/>
+  </wsdl:message>
+    <wsdl:portType name="OTPService">
+    <wsdl:operation name="sendOTP">
+      <wsdl:documentation>To send a newly generated OTP. The OTP that is generated is valid only for a limited time (configurable). 
+The OTP is sent to a registered contact point (email or phone number) of the customer. 
+The purpose code is for future use, clients should pass the transaction (purpose) for which this is being done.</wsdl:documentation>
+            <wsdl:input message="tns:sendOTPRequestMsg" name="sendOTPRequest"/>
+            <wsdl:output message="tns:sendOTPResponseMsg" name="sendOTPResponse"/>
+            <wsdl:fault message="tns:sendOTP_sendOTPFault1Msg" name="sendOTPFault1">
+        <wsdl:documentation/>
+      </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="verifyOTP">
+      <wsdl:documentation>To verify is a valid OTP is being submitted by the customer.  
+An OTP has 2 parts, a key (which is secret and stored with the client application) 
+and a value that is sent to the customer on a registered contact (phone or email). 
+If and only if the key and the value match, the verification is successful. </wsdl:documentation>
+      <wsdl:input message="tns:verifyOTPRequestMsg" name="verifyOTPRequest"/>
+            <wsdl:output message="tns:verifyOTPResponseMsg" name="verifyOTPResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="OTPServiceHttpBinding" type="tns:OTPService">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sendOTP">
+      <soap12:operation soapAction="http://www.quantiguous.com/OTPService/OTPService/sendOTP"/>
+      <wsdl:input name="sendOTPRequest">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendOTPResponse">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="sendOTPFault1">
+        <soap12:fault name="sendOTPFault1" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verifyOTP">
+      <soap12:operation soapAction="http://www.quantiguous.com/OTPService/OTPService/verifyOTP"/>
+      <wsdl:input name="verifyOTPRequest">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verifyOTPResponse">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+    <wsdl:service name="OTPServiceHttpService">
+    <wsdl:port binding="tns:OTPServiceHttpBinding" name="OTPServiceHttpPort">
+      <soap12:address location="/OTPService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

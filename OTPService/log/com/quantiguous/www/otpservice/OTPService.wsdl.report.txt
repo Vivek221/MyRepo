@@ -1,0 +1,16 @@
+
+
+Importing file: /home/iibadm/code/iib3/OTPService/OTPService.wsdl
+
+The WSDL import will proceed with bindings OTPServiceHttpBinding.
+Creating wsdl schema document for platform:/resource/OTPService/OTPService.wsdl.
+Parsing wsdl binding {http://www.quantiguous.com/OTPService}OTPServiceHttpBinding.
+Parsing wsdl binding input .
+Parsing wsdl binding output .
+Parsing wsdl binding fault sendOTPFault1.
+Parsing wsdl binding input .
+Parsing wsdl binding output .
+Processing doc style for operation .
+Populating WSDL schema OTPService.xsd.
+Creating file OTPService.xsd in the workspace.
+Copying source WSDL OTPService.wsdl to OTPService.wsdl.
